@@ -1,6 +1,8 @@
 package com.crazy.mshare.concreteBuilder
 
 import android.app.Activity
+import android.content.Context
+import android.net.Uri
 import com.crazy.mshare.builder.ShareBuilder
 import com.crazy.mshare.product.SharePd
 
@@ -15,7 +17,7 @@ import com.crazy.mshare.product.SharePd
  */
 class ConcreteShareBuilder(activity: Activity):ShareBuilder() {
 
-    //实例化dd
+    //实例化
     private val spd = SharePd(activity)
 
     override fun buildShareText(content: String) {

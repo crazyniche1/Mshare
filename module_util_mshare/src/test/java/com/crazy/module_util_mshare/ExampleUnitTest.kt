@@ -1,4 +1,4 @@
-package com.crazy.mshare
+package com.crazy.module_util_mshare
 
 import org.junit.Test
 

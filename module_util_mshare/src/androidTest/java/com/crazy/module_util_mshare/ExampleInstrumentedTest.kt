@@ -1,4 +1,4 @@
-package com.crazy.mshare
+package com.crazy.module_util_mshare
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.crazy.mshare", appContext.packageName)
+        assertEquals("com.crazy.module_util_mshare", appContext.packageName)
     }
 }

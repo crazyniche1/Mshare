@@ -1,2 +1,3 @@
 rootProject.name = "Mshare"
 include ':app'
+include ':module_util_mshare'
