@@ -15,7 +15,7 @@ import com.crazy.mshare.product.SharePd
  */
 class ConcreteShareBuilder(activity: Activity):ShareBuilder() {
 
-    //实例化
+    //实例化dd
     private val spd = SharePd(activity)
 
     override fun buildShareText(content: String) {
