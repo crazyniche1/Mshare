@@ -2,8 +2,6 @@ package com.crazy.mshare
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
-import com.crazy.mshare.concreteBuilder.ConcreteShareBuilder
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

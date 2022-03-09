@@ -1,7 +1,4 @@
-package com.crazy.mshare.builder
-
-import android.net.Uri
-import com.crazy.mshare.product.SharePd
+package com.crazy.mshare
 
 /**
  * Copyright (C), 2015-2021, 博彦科技
@@ -19,6 +16,6 @@ abstract  class ShareBuilder {
     abstract fun buildShareImages (imageList : List<String>)
     abstract fun buildShareEmail ()
 
-    abstract fun create ():SharePd
+    abstract fun create (): SharePd
 
 }

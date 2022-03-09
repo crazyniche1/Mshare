@@ -1,5 +1,6 @@
-package com.crazy.mshare.product
+package com.crazy.mshare
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
@@ -39,7 +40,7 @@ class SharePd constructor(private val activity : Activity) {
         }
     }
 
-    val Tag = "SharePd"
+    private val tag = "SharePd"
 
     private fun shareIntent(type:String) :Intent {
         mIntent.action = Intent.ACTION_SEND
@@ -54,10 +55,10 @@ class SharePd constructor(private val activity : Activity) {
      * 设置文本分享
      */
 
-    fun shareText (content: String) :SharePd{
+    private fun shareText (content: String) : SharePd {
          mi =  shareIntent(ShareType.TEXT.string)
          mi?.putExtra(Intent.EXTRA_TEXT,content)
-        Log.d(Tag,content)
+        Log.d(tag,content)
         return this
     }
 
@@ -65,7 +66,7 @@ class SharePd constructor(private val activity : Activity) {
      * 设置图片分享
      */
 
-    fun shareImage (mUri: String) :SharePd{
+    private fun shareImage (mUri: String?) : SharePd {
 
         if(mUri.isNullOrEmpty()){
             NullPointerException("Image is null or empty ")
@@ -81,7 +82,7 @@ class SharePd constructor(private val activity : Activity) {
      * 设置多图片分享
      */
 
-    fun shareImages (imageList : List<String>) :SharePd{
+    private fun shareImages (imageList : List<String>) : SharePd {
         if (imageList.isNullOrEmpty()){
             NullPointerException("ImageList is null or empty ")
         }
@@ -98,7 +99,7 @@ class SharePd constructor(private val activity : Activity) {
     /**
      * 设置邮件分享
      */
-    fun shareEmail () :SharePd {
+    private fun shareEmail () : SharePd {
 
         return this
     }
@@ -108,7 +109,7 @@ class SharePd constructor(private val activity : Activity) {
      * 根据不同的业务需求 去 过滤筛选
      */
 
-    fun imageAPP(mUri: String){
+    private fun imageAPP(mUri: String?){
         if (mUri.isNullOrEmpty()){
             NullPointerException("ImageList is null or empty ")
         }
@@ -123,7 +124,7 @@ class SharePd constructor(private val activity : Activity) {
         val cci = Intent.createChooser(targetIntents.removeAt(targetIntents.size - 1), title)
         val labeledIntents: Array<Intent> = targetIntents.toTypedArray()
         if (cci==null){
-            Log.d(Tag,noAppDesc)
+            Log.d(tag,noAppDesc)
             return
         }
         cci.putExtra(Intent.EXTRA_INITIAL_INTENTS,labeledIntents)
@@ -131,15 +132,16 @@ class SharePd constructor(private val activity : Activity) {
     }
 
     //获取匹配图片类型的应用信息列表：
+    @SuppressLint("QueryPermissionsNeeded")
     private fun getImageApps(im:Intent, uri:Uri){
         val resInfo  = activity.packageManager.queryIntentActivities(im,0)
         if(resInfo.isEmpty()){
-            Log.d(Tag,noAppDesc)
+            Log.d(tag,noAppDesc)
             return
         }
 
-        for ((i,e) in  resInfo.withIndex()){
-            val apm = activity.packageManager;
+        for (e in  resInfo){
+            val apm = activity.packageManager
             val icon = e.loadIcon(apm)
             val label = e.loadLabel(apm)
             val ai = e.activityInfo
@@ -150,13 +152,13 @@ class SharePd constructor(private val activity : Activity) {
             val target = shareIntent(ShareType.IMAGE.string)
             target.putExtra(Intent.EXTRA_STREAM,uri)
             target.component = ComponentName(ai.packageName,ai.name)
-            Log.d(Tag,"icon:$icon $label ${ ai.packageName}")
+            Log.d(tag,"icon:$icon $label ${ ai.packageName}")
             targetIntents.add(LabeledIntent(target,ai.packageName,label,ai.icon))
 
         }
 
         if (targetIntents.size <= 0){
-            Log.d(Tag,noAppDesc)
+            Log.d(tag,noAppDesc)
             return
         }
     }
@@ -166,6 +168,34 @@ class SharePd constructor(private val activity : Activity) {
      * show
      */
     fun show (){
-        activity?.startActivity(Intent.createChooser(mi,title))
+        activity.startActivity(Intent.createChooser(mi,title))
+    }
+
+
+    class ConcreteShareBuilder(activity: Activity): ShareBuilder() {
+
+        //实例化
+        private val spd = SharePd(activity)
+
+        override fun buildShareText(content: String) {
+            spd.shareText(content)
+        }
+
+        override fun buildShareImage(uri: String) {
+            spd.shareImage(uri)
+        }
+
+        override fun buildShareImages(imageList : List<String>) {
+            spd.shareImages(imageList)
+        }
+
+        override fun buildShareEmail() {
+            spd.shareEmail()
+        }
+
+        override fun create(): SharePd {
+            return  spd
+        }
+
     }
 }

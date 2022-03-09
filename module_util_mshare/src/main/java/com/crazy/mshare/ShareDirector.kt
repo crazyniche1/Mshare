@@ -1,6 +1,6 @@
-package com.crazy.mshare.director
+package com.crazy.mshare
 
-import com.crazy.mshare.builder.ShareBuilder
+import com.crazy.mshare.ShareBuilder
 
 /**
  * Copyright (C), 2015-2021, 博彦科技
@@ -11,7 +11,7 @@ import com.crazy.mshare.builder.ShareBuilder
  * History:
 
  */
-class ShareDirector constructor (private var mShareBuilder :ShareBuilder?){
+class ShareDirector constructor (private var mShareBuilder : ShareBuilder?){
 
     fun construct (str:String) {
         mShareBuilder?.buildShareText(str)
